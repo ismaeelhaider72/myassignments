@@ -1,0 +1,265 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------- Configure SSH using Public/Private Keys  -------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+   ((((((((((  client  )))))))))                                                                    
+
+#install all latest updates                                                                                
+
+   sudo apt-get update
+   sudo apt-get upgrade           
+
+
+# install ssh on client machine
+
+   sudo apt-get install ssh
+
+# generate key pair (private & public key)
+
+    ssh-keygen -t rsa -b 4096
+
+# keys are generated on home/user/.ssh/ directory
+# change directory to .ssh
+ cd .ssh
+# read id_rsa.pub file (public key)
+
+ cat id_rsa.pub 
+
+# copy the public key content.
+# now client setting for ssh is completed and goto server setting top to end and back again
+
+# now start SSH
+
+  ssh username@192.168.10.9
+
+
+
+   (((((((((  server ))))))))))
+
+
+#install all latest updates                                                                                
+
+   sudo apt-get update
+   sudo apt-get upgrade
+
+install apt-get install openssh-server
+
+# make a directory /home/user/.ssh 
+
+ mkdir .ssh
+
+# goto .ssh directory 
+ cd .ssh
+# create the id_rsa.pub file and open it and paste the copied content (pubic key of client) here
+
+  touch id_rsa.pub
+  nano id_rsa.pub   
+
+# append the content of id_rsa.pub in authorized_keys
+
+  cat id_rsa.pub >> authorized_keys
+
+# go back client side
+# now the client is authorized and ssh to server without password.
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------- Configure SSH using username/password  ----------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+
+  	(((((((((  Client  )))))))))))
+
+#install all latest updates                                                                                
+
+   sudo apt-get update
+   sudo apt-get upgrade
+
+# install ssh on client machine
+
+   sudo apt-get install ssh
+
+# go to usr/local/bin directory and create raza file
+sudo nano /usr/local/bin/raza
+
+# edit raza file, add some text username and ip address of raza
+    ssh raza@192.168.10.9
+
+# change file mode of raza file
+
+sudo 755 /usr/local/bin/raza
+
+# now client setting is completed goto server side
+
+# just type the same of server to ssh 
+
+ raza
+
+# enter password and you are logged in.
+
+# also ssh  to raza with enter username and ip and enter password
+
+ ssh raza@192.168.10.9
+
+ password$:XXXXXXXX
+
+
+
+
+
+
+       (((((((((( server )))))))))))
+
+#install all latest updates                                                                                
+
+   sudo apt-get update
+   sudo apt-get upgrade
+
+install apt-get install openssh-server
+# make a new user of name raza and enter password and some other optional credentials
+ sudo adduser raza
+
+# find and copy id address of server 
+	ip a
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------- Change the default port --------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Open the /etc/ssh/sshd_config file and add some line:
+
+#Port 22
+
+Then, uncomment (Remove the leading # character) it and change the value with an appropriate port number (for example, 22000):
+
+ Port 22000
+#Restart the SSH server:
+
+  systemctl restart sshd
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------  Allow multiple users  ---------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+# go to /etc/ssh/ directory
+
+ cd /etc/ssh/
+
+# make backup of sshd_config file
+ 
+ cp sshd_config sshd_config_backup
+
+
+
+# configure the sshd_config file
+     sudo nano sshd_config 
+
+
+# add some more text at the end 
+   AllowUsers  user2 user3 user4
+
+# reload or relaod the ssh services
+
+sudo systemctl reload ssh
+
+# check ssh status
+
+sudo systemctl status ssh
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------- Deny specific user  ------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+  server
+
+# go to /etc/ssh/ directory
+
+ cd /etc/ssh/
+
+# make backup of sshd_config file
+ 
+ cp sshd_config sshd_config_backup
+
+
+
+# configure the sshd_config file
+     sudo nano sshd_config 
+
+
+# add some more text at the end 
+   DenyUsers user1 
+
+# Relaod the ssh services
+
+sudo systemctl reload ssh
+
+# check ssh status
+
+sudo systemctl status ssh
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------  Allow some user to access only specific folder -------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# add user raza and enter his password
+  
+   adduser raza 
+
+# goto /var directory and make directries like var/testfolder/test 
+
+ cd /var/
+ mkdir testfolder
+ cd testfolder
+ mkdir test
+ cd test
+
+# set home directory for raza 
+
+   sudo usermod  -d /var/testfolder/test  -m  raza
+
+#Block shell access for raza
+  
+    usermod -s /sbin/nologin raza
+
+# change folder permission (owner permission to raza)
+ 
+  chown -R raza:group test
+
+# if the you want that the folder of raza is read, write and execute by owner,groups and anyothers (as your choice)
+
+  chmod -R 777 test/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
