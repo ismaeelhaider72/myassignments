@@ -24,6 +24,6 @@ from urllib.request import urlopen  //Python module for fetching URLs (Uniform R
 ```
 
 _**Setup & Execution:**_<br />
-Save this file in your directory and open your console run it and result will be displayed
+Save this file in your directory (e.g D:\\assignment\\scrapping.py) and open your console run it (e.g py D:\\assignment\\scrapping.py) and result will be save in listfile4.txt in the same directory.
 
 ---
