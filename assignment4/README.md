@@ -22,7 +22,7 @@ Used `$1` is the first command-line argument passed to the shell script. Also, k
 
 _**Execution**_<br/>
 
-Save this bash file (e.g home\ismaeel\assignment\bashing.sh) on your machine and go to that directory <br/> run it by just just typing that command<br/>
+Save this bash file (e.g home\ismaeel\assignment\bashing.sh) on your machine and go to that directory <br/> run it by just typing below commands<br/>
  `./bashing.sh 1  ` to Dispaly Disk Space<br/>
  `./bashing.sh 2  ` to Dispaly Top 10 Process names consuming high cpu with % consumption after name<br/>
  `./bashing.sh 3  ` to Dispaly Top 10 Process names consuming high memory with % consumption after name<br/>
